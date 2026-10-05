@@ -69,6 +69,7 @@ assert.equal(w.getJobForSubmit('nope').extraNonce, w.extraNonce);
 for (let i = 0; i < 5; i++) await w.sendNewJob(true, true);
 assert.equal(w.recentJobs.size, 4);
 await w.handleUpdate({ challengeNumber: '0x' + '22'.repeat(32), epochCount: 43, randomxBlob: blob, randomxSeedhash: seed });
+await new Promise((r) => setTimeout(r, 50)); // handleUpdate fires sendNewJob without awaiting it
 assert.equal(w.recentJobs.size, 1);
 w.stopRetargetTimer();
 console.log('ok: jobs rotate, stale-job shares verify against their own extraNonce');
